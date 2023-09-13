@@ -35,6 +35,9 @@ setup(
     classifiers=classifiers,
     description="Betwixt two values",
     include_package_data=True,
+    install_requires=[
+        "bendy==1.0.0a2",
+    ],
     license="MIT",
     long_description=long_description,
     long_description_content_type="text/markdown",
