@@ -15,6 +15,7 @@ twine = "*"
 yamllint = "*"
 
 [packages]
+bendy = "==1.0.0a2"
 
 [requires]
 python_version = "3.11"

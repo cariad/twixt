@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1609fad917a18ce8b9a4de7e7e2aead54612e8ab10e25008a61b4cefd9e579e6"
+            "sha256": "33c067148d734aca96da0e029423c18d0e0091562a4f90d12976da71d204079b"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -15,7 +15,16 @@
             }
         ]
     },
-    "default": {},
+    "default": {
+        "bendy": {
+            "hashes": [
+                "sha256:fb019c3611a0cd6ece109a4fa6c5c6663d0cb227502fe39df8e0b879a90e2d26"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.11'",
+            "version": "==1.0.0a2"
+        }
+    },
     "develop": {
         "black": {
             "hashes": [
