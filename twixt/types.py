@@ -1,3 +1,3 @@
 from typing import Callable
 
-Transform = Callable[[float], float]
+Function = Callable[[float], float]

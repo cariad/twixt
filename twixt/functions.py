@@ -1,16 +1,16 @@
 from bendy import CubicBezier
 
-from twixt.types import Transform
+from twixt.types import Function
 
 
-def curve(cb: CubicBezier) -> Transform:
+def curve(cb: CubicBezier) -> Function:
     def transform(n: float) -> float:
         return next(iter(cb.estimate_y(n)))
 
     return transform
 
 
-def elastic() -> Transform:
+def elastic() -> Function:
     cb = CubicBezier(
         (0, 0),
         (0.25, -0.45),
@@ -21,7 +21,7 @@ def elastic() -> Transform:
     return curve(cb)
 
 
-def linear() -> Transform:
+def linear() -> Function:
     def transform(n: float) -> float:
         return n
 

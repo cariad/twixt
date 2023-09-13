@@ -1,17 +1,19 @@
 from pytest import mark, raises
 
-from twixt import Transform, transition
-from twixt.transitions import elastic, linear
+from twixt import Transition
+from twixt.functions import elastic, linear
 
 
 @mark.parametrize(
-    "start, end, count, transformation, expect",
+    "transition, expect",
     [
         (
-            0,
-            9,
-            10,
-            linear(),
+            Transition(
+                0,
+                9,
+                linear(),
+                10,
+            ),
             [
                 0.0,
                 1.0,
@@ -26,10 +28,12 @@ from twixt.transitions import elastic, linear
             ],
         ),
         (
-            0,
-            9,
-            10,
-            elastic(),
+            Transition(
+                0,
+                9,
+                elastic(),
+                10,
+            ),
             [
                 0,
                 -0.568935451855562,
@@ -45,32 +49,20 @@ from twixt.transitions import elastic, linear
         ),
     ],
 )
-def test_transition(
-    start: float,
-    end: float,
-    count: int,
-    transformation: Transform,
+def test_steps(
+    transition: Transition,
     expect: list[float],
 ) -> None:
-    result = transition(
-        start,
-        end,
-        count,
-        transformation,
-    )
-
-    assert list(result) == expect
+    assert list(transition.steps) == expect
 
 
 def test_transition__range() -> None:
-    result = transition(
-        100,
-        200,
-        1,
-        linear(),
-    )
-
     with raises(ValueError) as ex:
-        list(result)
+        Transition(
+            100,
+            200,
+            linear(),
+            1,
+        )
 
-    assert str(ex.value) == "count (1) must be >= 2"
+    assert str(ex.value) == "Transitions require at least two frames (1)"
