@@ -1,7 +1,7 @@
 from pytest import mark, raises
 
 from twixt import Transform, transition
-from twixt.transformers import elastic, linear
+from twixt.transitions import elastic, linear
 
 
 @mark.parametrize(
