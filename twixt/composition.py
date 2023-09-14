@@ -1,8 +1,8 @@
-from typing import Generic, Iterator, TypeVar
+from typing import Generic, Iterator
 
+from twixt.composed_step import ComposedStep
 from twixt.transition import Transition
-
-TKey = TypeVar("TKey")
+from twixt.types import TKey
 
 
 class Composition(Generic[TKey]):
@@ -40,12 +40,15 @@ class Composition(Generic[TKey]):
         self._frames = max(self._frames, transition.frames + offset)
 
     @property
-    def steps(self) -> Iterator[dict[TKey, float]]:
+    def steps(self) -> Iterator[ComposedStep[TKey]]:
         for frame in range(self._lead_in + self._frames + self._lead_out):
-            result: dict[TKey, float] = {}
+            progress: dict[TKey, float] = {}
 
             for key, transition in self._transitions.items():
                 transition_frame = frame - self._offsets[key] - self._lead_in
-                result[key] = transition.step(transition_frame)
+                progress[key] = transition.step(transition_frame)
 
-            yield result
+            yield ComposedStep(
+                frame=frame,
+                progress=progress,
+            )

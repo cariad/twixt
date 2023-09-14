@@ -24,20 +24,32 @@ def test_steps(
 
     assert list(composition.steps) == [
         {
-            "down": 40,
-            "up": 80,
+            "frame": 0,
+            "progress": {
+                "down": 40,
+                "up": 80,
+            },
         },
         {
-            "down": 36.666666666666664,
-            "up": 90.0,
+            "frame": 1,
+            "progress": {
+                "down": 36.666666666666664,
+                "up": 90.0,
+            },
         },
         {
-            "down": 33.333333333333336,
-            "up": 100.0,
+            "frame": 2,
+            "progress": {
+                "down": 33.333333333333336,
+                "up": 100.0,
+            },
         },
         {
-            "down": 30.0,
-            "up": 100.0,
+            "frame": 3,
+            "progress": {
+                "down": 30.0,
+                "up": 100,
+            },
         },
     ]
 
@@ -52,28 +64,46 @@ def test_steps__lead_in(
 
     assert list(composition.steps) == [
         {
-            "down": 40,
-            "up": 80,
+            "frame": 0,
+            "progress": {
+                "down": 40,
+                "up": 80,
+            },
         },
         {
-            "down": 40,
-            "up": 80,
+            "frame": 1,
+            "progress": {
+                "down": 40,
+                "up": 80,
+            },
         },
         {
-            "down": 40,
-            "up": 80,
+            "frame": 2,
+            "progress": {
+                "down": 40,
+                "up": 80,
+            },
         },
         {
-            "down": 36.666666666666664,
-            "up": 90.0,
+            "frame": 3,
+            "progress": {
+                "down": 36.666666666666664,
+                "up": 90.0,
+            },
         },
         {
-            "down": 33.333333333333336,
-            "up": 100.0,
+            "frame": 4,
+            "progress": {
+                "down": 33.333333333333336,
+                "up": 100.0,
+            },
         },
         {
-            "down": 30.0,
-            "up": 100.0,
+            "frame": 5,
+            "progress": {
+                "down": 30.0,
+                "up": 100,
+            },
         },
     ]
 
@@ -92,39 +122,66 @@ def test_steps__lead_in_and_lead_out(
 
     assert list(composition.steps) == [
         {
-            "down": 40,
-            "up": 80,
+            "frame": 0,
+            "progress": {
+                "down": 40,
+                "up": 80,
+            },
         },
         {
-            "down": 40,
-            "up": 80,
+            "frame": 1,
+            "progress": {
+                "down": 40,
+                "up": 80,
+            },
         },
         {
-            "down": 40,
-            "up": 80,
+            "frame": 2,
+            "progress": {
+                "down": 40,
+                "up": 80,
+            },
         },
         {
-            "down": 36.666666666666664,
-            "up": 90.0,
+            "frame": 3,
+            "progress": {
+                "down": 36.666666666666664,
+                "up": 90.0,
+            },
         },
         {
-            "down": 33.333333333333336,
-            "up": 100.0,
+            "frame": 4,
+            "progress": {
+                "down": 33.333333333333336,
+                "up": 100.0,
+            },
         },
         {
-            "down": 30.0,
-            "up": 100.0,
+            "frame": 5,
+            "progress": {
+                "down": 30.0,
+                "up": 100,
+            },
         },
         {
-            "down": 30.0,
-            "up": 100.0,
+            "frame": 6,
+            "progress": {
+                "down": 30,
+                "up": 100,
+            },
         },
         {
-            "down": 30.0,
-            "up": 100.0,
+            "frame": 7,
+            "progress": {
+                "down": 30,
+                "up": 100,
+            },
         },
         {
-            "down": 30.0,
-            "up": 100.0,
+            "frame": 8,
+            "progress": {
+                "down": 30,
+                "up": 100,
+            },
         },
     ]
