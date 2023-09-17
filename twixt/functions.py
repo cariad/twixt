@@ -3,9 +3,19 @@ from bendy import CubicBezier
 from twixt.types import Function
 
 
-def curve(cb: CubicBezier) -> Function:
+def curve(
+    cb: CubicBezier,
+    resolution: int = 100,
+) -> Function:
     def transform(n: float) -> float:
-        return next(iter(cb.estimate_y(n)))
+        estimations = cb.estimate_y(
+            n,
+            resolution=resolution,
+        )
+
+        # We intentionally take only the first estimation. We shouldn't be
+        # passing curves that have multiple values for any given frame.
+        return next(estimations)
 
     return transform
 
