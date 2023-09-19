@@ -1,15 +1,11 @@
-from twixt.composition import Composition
-from twixt.functions import curve, elastic, linear
-from twixt.transition import Transition
-from twixt.types import Function
-from twixt.version_func import version
+from twixt.composed_step import ComposedStep
+from twixt.timeline import Timeline
+from twixt.track import Track
+from twixt.version import get_version
 
 __all__ = [
-    "Composition",
-    "Function",
-    "Transition",
-    "curve",
-    "elastic",
-    "linear",
-    "version",
+    "ComposedStep",
+    "Timeline",
+    "Track",
+    "get_version",
 ]

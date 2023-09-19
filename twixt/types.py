@@ -1,4 +1,3 @@
-from typing import Callable, TypeVar
+from typing import TypeVar
 
-Function = Callable[[float], float]
 TKey = TypeVar("TKey")

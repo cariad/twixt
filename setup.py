@@ -2,9 +2,9 @@ from pathlib import Path
 
 from setuptools import setup
 
-from twixt import version
+from twixt import get_version
 
-release_version = version()
+version = get_version()
 
 readme_path = Path(__file__).parent / "README.md"
 
@@ -20,9 +20,9 @@ classifiers = [
     "Typing :: Typed",
 ]
 
-if "a" in release_version:
+if "a" in version:
     classifiers.append("Development Status :: 3 - Alpha")
-elif "b" in release_version:
+elif "b" in version:
     classifiers.append("Development Status :: 4 - Beta")
 else:
     classifiers.append("Development Status :: 5 - Production/Stable")
@@ -36,7 +36,7 @@ setup(
     description="Betwixt two values",
     include_package_data=True,
     install_requires=[
-        "bendy==1.0.0a4",
+        "bendy==1.0.0a6",
     ],
     license="MIT",
     long_description=long_description,
@@ -50,5 +50,5 @@ setup(
     },
     python_requires=">=3.11",
     url="https://github.com/cariad/twixt",
-    version=release_version,
+    version=version,
 )

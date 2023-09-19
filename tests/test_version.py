@@ -1,5 +1,5 @@
-from twixt import version
+from twixt import get_version
 
 
 def test() -> None:
-    assert version() == "0.0.0"
+    assert get_version() == "0.0.0"
