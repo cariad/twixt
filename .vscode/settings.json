@@ -6,6 +6,7 @@
     "lerp",
     "Pipfile",
     "twixt",
+    "vecked",
     "venv"
   ]
 }

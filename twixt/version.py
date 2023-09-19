@@ -1,7 +1,7 @@
 from importlib.resources import files
 
 
-def version() -> str:
+def get_version() -> str:
     """
     Gets the package version.
     """
