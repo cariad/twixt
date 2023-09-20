@@ -23,7 +23,6 @@ class Timeline(Generic[TKey]):
     ) -> Track[TKey]:
         track = Track[TKey](
             key,
-            self._frames,
             start_frame,
             start_value,
             ease_in_length,
@@ -33,6 +32,14 @@ class Timeline(Generic[TKey]):
         self._tracks.append(track)
 
         return track
+
+    @property
+    def frames(self) -> int:
+        """
+        Frame count.
+        """
+
+        return self._frames
 
     @property
     def steps(self) -> Iterator[ComposedStep[TKey]]:

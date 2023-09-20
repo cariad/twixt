@@ -12,23 +12,19 @@ class Track(Generic[TKey]):
     def __init__(
         self,
         key: TKey,
-        length: int,
         start: int = 0,
         value: float = 0.0,
         ease_in_length: float = 0.0,
         ease_in_force: float = 0.0,
     ) -> None:
-        self._length = length
-        self._key = key
-        self._start = start
-        self._initial_value = value
-        self._ease_in_length = ease_in_length
-        self._ease_in_force = ease_in_force
+        self._anchor = Vector2f(start, value)
+        self._control = self._anchor + Vector2f(ease_in_length, ease_in_force)
         self._curves: list[CubicBezier] = []
-
-    @property
-    def key(self) -> TKey:
-        return self._key
+        self._ease_in_force = ease_in_force
+        self._ease_in_length = ease_in_length
+        self._key = key
+        self._max_anchor = max(self._anchor.y, self._control.y)
+        self._min_anchor = min(self._anchor.y, self._control.y)
 
     def add_point(
         self,
@@ -37,19 +33,19 @@ class Track(Generic[TKey]):
         ease_out_length: float = 0.0,
         ease_out_force: float = 0.0,
     ) -> Track[TKey]:
-        control = Vector2f(frame - ease_out_length, value - ease_out_force)
         anchor = Vector2f(frame, value)
+        control = anchor - Vector2f(ease_out_length, ease_out_force)
+
+        self._max_anchor = max(self._max_anchor, anchor.y, control.y)
+        self._min_anchor = min(self._min_anchor, anchor.y, control.y)
 
         if self._curves:
             last_curve = self._curves[len(self._curves) - 1]
             new_curve = last_curve.join(control, anchor)
         else:
             new_curve = CubicBezier(
-                (self._start, self._initial_value),
-                (
-                    self._start + self._ease_in_length,
-                    self._initial_value + self._ease_in_force,
-                ),
+                self._anchor,
+                self._control,
                 control,
                 anchor,
             )
@@ -57,9 +53,33 @@ class Track(Generic[TKey]):
         self._curves.append(new_curve)
         return self
 
+    @property
+    def key(self) -> TKey:
+        """
+        Track key.
+        """
+
+        return self._key
+
+    @property
+    def max_anchor(self) -> float:
+        """
+        Maximum curve anchor.
+        """
+
+        return self._max_anchor
+
+    @property
+    def min_anchor(self) -> float:
+        """
+        Minimum curve anchor.
+        """
+
+        return self._min_anchor
+
     def step(self, frame: int) -> float:
         if not self._curves:
-            return self._initial_value
+            return self._anchor.y
 
         first_curve = self._curves[0]
 
