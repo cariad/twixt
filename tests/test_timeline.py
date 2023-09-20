@@ -7,6 +7,10 @@ def test_add_track() -> None:
     assert track.key == "x"
 
 
+def test_frames() -> None:
+    assert Timeline[str](10).frames == 10
+
+
 def test_steps() -> None:
     timeline = Timeline[str](10)
     timeline.add_track("x").add_point(9, 9)
