@@ -34,9 +34,14 @@ setup(
     author_email="cariad@cariad.earth",
     classifiers=classifiers,
     description="Betwixt two values",
+    extras_require={
+        "draw": [
+            "bendy[draw]==1.0.0a10",
+        ],
+    },
     include_package_data=True,
     install_requires=[
-        "bendy==1.0.0a6",
+        "bendy==1.0.0a10",
     ],
     license="MIT",
     long_description=long_description,
