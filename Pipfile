@@ -12,10 +12,11 @@ pytest = "*"
 pytest-cov = "*"
 shellcheck-py = "*"
 twine = "*"
+types-pillow = "*"
 yamllint = "*"
 
 [packages]
-bendy = "==1.0.0a6"
+bendy = { version="==1.0.0a10", extras=["draw"] }
 
 [requires]
 python_version = "3.11"

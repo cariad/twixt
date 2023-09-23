@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-from typing import Generic
+from typing import Any, Generic
 
-from bendy import CubicBezier
-from vecked import Vector2f
+from bendy import CompositeCubicBezier, CubicBezier
+from vecked import Region2f, Vector2f
 
+from twixt.logging import logger
 from twixt.types import TKey
 
 
@@ -19,7 +20,7 @@ class Track(Generic[TKey]):
     ) -> None:
         self._anchor = Vector2f(start, value)
         self._control = self._anchor + Vector2f(ease_in_length, ease_in_force)
-        self._curves: list[CubicBezier] = []
+        self._curves: CompositeCubicBezier | None = None
         self._ease_in_force = ease_in_force
         self._ease_in_length = ease_in_length
         self._key = key
@@ -40,8 +41,7 @@ class Track(Generic[TKey]):
         self._min_anchor = min(self._min_anchor, anchor.y, control.y)
 
         if self._curves:
-            last_curve = self._curves[len(self._curves) - 1]
-            new_curve = last_curve.join(control, anchor)
+            self._curves.append(control, anchor)
         else:
             new_curve = CubicBezier(
                 self._anchor,
@@ -49,9 +49,36 @@ class Track(Generic[TKey]):
                 control,
                 anchor,
             )
+            self._curves = CompositeCubicBezier(new_curve)
 
-        self._curves.append(new_curve)
         return self
+
+    def draw(
+        self,
+        image_draw: Any,
+        bounds: Region2f,
+        resolution: int = 100,
+    ) -> None:
+        try:
+            from PIL.ImageDraw import ImageDraw
+        except ImportError:  # pragma: no cover
+            msg = "Install `twixt[draw]` to enable drawing."  # pragma: no cover
+            logger.error(msg)  # pragma: no cover
+            raise  # pragma: no cover
+
+        if not isinstance(image_draw, ImageDraw):
+            raise TypeError("image_draw is not PIL.ImageDraw")
+
+        if not self._curves:
+            raise ValueError("Cannot render an incomplete track")
+
+        self._curves.draw(
+            image_draw,
+            bounds,
+            axis=True,
+            resolution=resolution,
+            title=str(self._key),
+        )
 
     @property
     def key(self) -> TKey:
@@ -81,14 +108,10 @@ class Track(Generic[TKey]):
         if not self._curves:
             return self._anchor.y
 
-        first_curve = self._curves[0]
+        if frame <= self._curves.head.a0.x:
+            return self._curves.head.a0.y
 
-        if frame <= first_curve.a0.x:
-            return first_curve.a0.y
+        if frame >= self._curves.tail.a3.x:
+            return self._curves.tail.a3.y
 
-        for curve in self._curves:
-            if frame >= curve.a0.x and frame < curve.a3.x:
-                return next(curve.estimate_y(frame))
-
-        final_curve = self._curves[len(self._curves) - 1]
-        return final_curve.a3.y
+        return next(self._curves.estimate_y(frame))

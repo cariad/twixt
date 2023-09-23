@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from twixt import ComposedStep, Timeline
 
 
@@ -5,6 +7,49 @@ def test_add_track() -> None:
     timeline = Timeline[str](10)
     track = timeline.add_track("x", 0, 0, 0, 0)
     assert track.key == "x"
+
+
+def test_draw() -> None:
+    timeline = Timeline[str](100)
+
+    timeline.add_track(
+        "x",
+        start_frame=3,
+        start_value=1,
+        ease_in_length=10,
+        ease_in_force=-2,
+    ).add_point(
+        20,
+        7,
+        ease_out_length=10,
+    ).add_point(
+        30,
+        1,
+        ease_out_length=10,
+    ).add_point(
+        99,
+        11,
+        ease_out_length=30,
+    )
+
+    timeline.add_track(
+        "y",
+        ease_in_length=45,
+    ).add_point(
+        49,
+        1,
+        ease_out_length=45,
+    ).add_point(
+        99,
+        0,
+        ease_out_length=45,
+    )
+
+    timeline.export(
+        Path("docs") / "timeline.png",
+        800,
+        300,
+    )
 
 
 def test_frames() -> None:
